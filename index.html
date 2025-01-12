@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Conversor de Moneda</title>
+</head>
+<body>
+  <div class="container">
+
+      <h1>Conversor de Moneda Nacional</h1>
+
+      <section>
+          
+          <p>Monto en Pesos Chilenos</p>
+          <input type="number" id="dinero" placeholder="Ingrese el monto">
+          
+          <p>Moneda a convertir:</p>
+          <select id="moneda">
+              <option value="dolar">Dolar</option>
+              <option value="euro">Euro</option>
+              <option value="uf">UF</option>
+              <option value="utm">UTM</option>
+            </select>
+            
+            <button onclick="convertirMoneda()">Convertir</button>
+            
+        </section>
+
+        <section>
+            <p>Resultado: <span id = "resultado"></span></p>
+        </section>
+        
+    </div>
+
+
+
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
