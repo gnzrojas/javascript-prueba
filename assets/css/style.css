@@ -8,6 +8,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     min-height: 100vh;
 
 }
@@ -74,3 +75,10 @@ button:hover {
     cursor: pointer;
 }
 
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 75%;
+    height: auto;
+}
