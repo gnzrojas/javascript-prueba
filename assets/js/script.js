@@ -34,7 +34,7 @@ async function convertirMoneda() {
     }
 
     catch (error) {
-        console.log('error: ', error);
+        alert('Error al cargar los datos desde la API');
 
     }
 }
@@ -88,7 +88,7 @@ async function renderChart(moneda) {
     }
 
     catch (error) {
-        console.log("Error:", error);
+        alert('Error al cargar los datos desde la API');
 
     }
 }
