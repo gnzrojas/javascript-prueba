@@ -1,5 +1,3 @@
-
-
 async function convertirMoneda() {
     const dinero = document.getElementById('dinero').value;
     const moneda = document.getElementById('moneda').value;
@@ -34,8 +32,7 @@ async function convertirMoneda() {
     }
 
     catch (error) {
-        alert('Error al cargar los datos desde la API');
-
+        alert('Error al cargar los datos desde la API: ' + error.message);
     }
 }
 
@@ -44,53 +41,53 @@ let grafico = '';
 
 async function renderChart(moneda) {
     try {
-        const response = await fetch(`https://mindicador.cl/api/${moneda}`);
+        const response = await fetch(`https://mindicador.cl/awpi/${moneda}`);
         const data = await response.json();
-        //console.log(data);
 
-        //extraer informacion de los últimos 10 días
-        const historicData = data.serie.slice(0,10).reverse()
-        const etiquetas = historicData.map( item => item.fecha.slice(0, 10));
-        const valores = historicData.map( item => item.valor);
+        // Verificamos que data.serie sea un arreglo y no esté vacío
+        if (Array.isArray(data.serie) && data.serie.length > 0) {
+            // Extraer los últimos 10 días de datos
+            const historicData = data.serie.slice(0, 10).reverse();
+            const etiquetas = historicData.map(item => item.fecha.slice(0, 10));
+            const valores = historicData.map(item => item.valor);
 
-        if (grafico) {
-            //Elimina un grafico existente, si existe
-            grafico.destroy()
-        }
-        const context = document.getElementById('grafico').getContext("2d");
+            if (grafico) {
+                grafico.destroy(); // Eliminar gráfico existente si hay uno
+            }
 
-        grafico = new Chart( context, {
-            type: 'line',
-            data: {
-                labels: etiquetas,
-                datasets: [{
-                    label: `Valor en los últimos 10 días (${moneda})`,
-                    data: valores,
-                    borderColor: "#ff0000",
-                    tension: 0.1
+            const context = document.getElementById('grafico').getContext("2d");
 
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    x: {
-                        ticks: {
-                            maxRotation: 45,
-                            minRotation: 0
+            grafico = new Chart(context, {
+                type: 'line',
+                data: {
+                    labels: etiquetas,
+                    datasets: [{
+                        label: `Valor en los últimos 10 días (${moneda})`,
+                        data: valores,
+                        borderColor: "#ff0000",
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        x: {
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
                         }
                     }
                 }
-            }
-        })
+            });
+        } else {
+            // Si no hay datos válidos para la serie, mostrar un mensaje de error.
+            throw new Error("No se encontraron datos históricos para la moneda seleccionada.");
+        }
 
-    }
-
-    catch (error) {
-        alert('Error al cargar los datos desde la API');
-
+    } catch (error) {
+        console.error("Error al renderizar gráfico:", error);
+        alert('Error al cargar los datos históricos: ' + error.message);
     }
 }
-
-renderChart(moneda)
